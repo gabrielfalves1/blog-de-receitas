@@ -1,7 +1,7 @@
 <?php
 require($_SERVER['DOCUMENT_ROOT'] . "./configuration/connect.php");
-require("User.php");
 
+require("User.php");
 
 class UserDao extends Connect
 {
@@ -17,7 +17,6 @@ class UserDao extends Connect
     {
     }
 
-
     public function create(User $user)
     {
         try {
@@ -31,8 +30,43 @@ class UserDao extends Connect
 
             return $stmt->execute();
         } catch (Exception $e) {
-            echo ("Erro ao realizar inserção de usuário") . $e->getMessage();
-            die();
+            echo ("Erro ao realizar inserção de usuário.") . $e->getMessage();
+        }
+    }
+
+    public function isEmailRegistered($email)
+    {
+
+        try {
+            $sql = "SELECT email FROM $this->table WHERE email = :email";
+
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindValue(":email", $email);
+            $stmt->execute();
+
+            $rowCount = $stmt->rowCount();
+            return $rowCount > 0;
+        } catch (Exception $e) {
+            echo ("Erro ao verificar email.") . $e->getMessage();
+        }
+    }
+
+    public function isUsernameRegistered($username)
+    {
+
+        try {
+            $sql = "SELECT username FROM $this->table WHERE username = :username";
+
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindValue(":username", $username);
+            $stmt->execute();
+
+            $rowCount = $stmt->rowCount();
+            return $rowCount > 0;
+        } catch (Exception $e) {
+            echo ("Erro ao verificar nome de usuário.") . $e->getMessage();
         }
     }
 }
