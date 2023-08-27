@@ -1,8 +1,11 @@
 <?php
-session_start();
 $pageTitle = "Cadastro";
 $cssPath = "views\create\style.css";
 require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php');
+if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+    header("Location: /");
+    exit;
+}
 ?>
 
 
@@ -11,7 +14,7 @@ require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php');
 <div class="form d-flex justify-content-center align-items-center p-3">
 
     <form action="/" method="post">
-        <input type="hidden" name="create">
+        <input type="hidden" name="action" value="create">
         <div class="mb-3 ">
             <label class="form-label">Email</label>
             <input type="email" class="form-control" name="email">
@@ -25,17 +28,13 @@ require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php');
             <input type="password" class="form-control" name="password">
         </div>
 
-
         <div class="errors">
-
             <?php if (isset($_SESSION['errors']) && is_array($_SESSION['errors'])) {
                 foreach ($_SESSION['errors'] as $error) {
                     echo '<p>' . $error . "<br>" . '</p>';
                 }
                 unset($_SESSION['errors']);
             }  ?>
-
-
         </div>
 
         <div class="options d-flex justify-content-between align-items-center">

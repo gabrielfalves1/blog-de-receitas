@@ -20,11 +20,11 @@ class UserDao extends Connect
     public function create(User $user)
     {
         try {
-            $sql = "INSERT INTO $this->table (userName, email, password) VALUES (:userName, :email, :password)";
+            $sql = "INSERT INTO $this->table (username, email, password) VALUES (:username, :email, :password)";
 
             $stmt = $this->connection->prepare($sql);
 
-            $stmt->bindValue(":userName", $user->getUserName());
+            $stmt->bindValue(":username", $user->getUsername());
             $stmt->bindValue(":email", $user->getEmail());
             $stmt->bindValue(":password", $user->getPassword());
 

@@ -39,12 +39,16 @@ class UserController
         $password = $user->getPassword();
         $errors = [];
 
-        if (empty($username) || empty($email) || empty($user->getPassword())) {
+        if (empty($username) || empty($email) || empty($password)) {
             $errors[] = "Preencha todos os campos.";
         }
 
         if (strlen($username) > 15) {
             $errors[] = "Nome de usuário só pode conter até 15 caracteres.";
+        }
+
+        if (strlen($username) > 3) {
+            $errors[] = "Nome de usuário precisa ter no mínimo 3 caracteres.";
         }
 
         $emailExists =  $this->dao->isEmailRegistered($email);
@@ -64,7 +68,7 @@ class UserController
             return false;
         }
 
-        $user->setUserName($username);
+        $user->setUsername($username);
         $user->setEmail($email);
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $user->setPassword($hashedPassword);

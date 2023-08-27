@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!doctype html>
 <html lang="pt-br">
 
@@ -24,13 +25,25 @@
                         <a class="nav-link" href="/">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Ultimas receitas</a>
+                        <a class="nav-link" href="/posts">Ultimas receitas</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/login">Acessar</a>
-                    </li>
+
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) : ?>
+                        <form action="/" method="post">
+                            <input type="hidden" name="action" value="logout">
+                            <li class="nav-item">
+                                <button type="submit" class="nav-link" style="color: #fff">Sair</button>
+                            </li>
+                        </form>
+
+                    <?php else : ?>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Acessar</a>
+                        </li>
+                    <?php endif ?>
                 </ul>
 
 

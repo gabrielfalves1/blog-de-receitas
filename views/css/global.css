@@ -49,6 +49,7 @@ main {
   width: 95px;
   height: 30px;
   border-radius: 5px;
+  border: 1px solid #dee2e6;
 }
 
 .errors {

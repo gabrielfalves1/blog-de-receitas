@@ -5,6 +5,12 @@ RewriteRule ^home/?$ /views/home/home.php [L]
 
 RewriteRule ^login/?$ /views/login/login.php [L]
 
-RewriteRule ^register/?$ /views/create/create.php [L]
+RewriteRule ^register/?$ /views/register/register.php [L]
+
+RewriteRule ^posts/?$ /views/posts/posts.php [L]
+
+RewriteRule ^post/([0-9]+)/?$ /views/post/post.php?id=$1 [L]
+
+
 
 #RewriteRule ^login/([0-9]+)/?$ /views/login/login.php?id=$1 [L]
