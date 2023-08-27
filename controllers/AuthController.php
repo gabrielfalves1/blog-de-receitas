@@ -1,5 +1,4 @@
 <?php
-ini_set('session.gc_maxlifetime', 600);
 session_start();
 require($_SERVER['DOCUMENT_ROOT'] . "./models/AuthDao.php");
 

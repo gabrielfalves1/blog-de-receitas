@@ -1,14 +1,12 @@
 <?php
 $pageTitle = "Login";
 $cssPath = "views\login\login.css";
-require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php');
-
-if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
-    header("Location: /");
-    exit;
-}
+require($_SERVER['DOCUMENT_ROOT'] . '/configuration/config.php');
+$config = new Config();
+$config->isLoggedIn();
 ?>
 
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php'); ?>
 
 <h2 class="text-center">Acesse</h2>
 

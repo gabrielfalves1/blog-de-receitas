@@ -11,11 +11,15 @@ class UserController
         $this->dao = new UserDao();
     }
 
-    public function get()
+    public function get($id)
     {
-        $resultData = $this->dao->get();
-        require($_SERVER['DOCUMENT_ROOT'] . "./views/index.php");
+        return $this->dao->get($id);
     }
+
+    public function getAll()
+    {
+    }
+
 
     public function create($data)
     {
@@ -27,7 +31,7 @@ class UserController
             header("location: /register");
         } else {
             $this->dao->create($validationResult);
-            header("location: /home");
+            header("location: /login");
         }
     }
 
@@ -47,7 +51,7 @@ class UserController
             $errors[] = "Nome de usuário só pode conter até 15 caracteres.";
         }
 
-        if (strlen($username) > 3) {
+        if (strlen($username) < 3) {
             $errors[] = "Nome de usuário precisa ter no mínimo 3 caracteres.";
         }
 

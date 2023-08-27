@@ -41,7 +41,7 @@ class User
         $this->id = $id;
     }
 
-    public function setUserName($username)
+    public function setUsername($username)
     {
         $this->username = $username;
     }

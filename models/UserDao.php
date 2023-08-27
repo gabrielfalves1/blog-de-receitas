@@ -13,8 +13,19 @@ class UserDao extends Connect
         $this->table = "users";
     }
 
-    public function get()
+    public function get($id)
     {
+        try {
+            $sql = "SELECT * FROM $this->table WHERE id = :id LIMIT 1";
+
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue(":id", $id);
+            $stmt->execute();
+
+            return $stmt->fetch();
+        } catch (Exception $e) {
+            echo ("Erro ao buscar usuário.") . $e->getMessage();
+        }
     }
 
     public function create(User $user)
@@ -38,7 +49,7 @@ class UserDao extends Connect
     {
 
         try {
-            $sql = "SELECT email FROM $this->table WHERE email = :email";
+            $sql = "SELECT email FROM $this->table WHERE email = :email LIMIT 1";
 
             $stmt = $this->connection->prepare($sql);
 

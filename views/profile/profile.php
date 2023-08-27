@@ -1,11 +1,18 @@
 <?php
 $pageTitle = "Perfil do Usuário";
-require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php');
-require($_SERVER['DOCUMENT_ROOT'] . '/configuration/isLoggedIn.php');
+require($_SERVER['DOCUMENT_ROOT'] . '/configuration/config.php');
+$config = new Config();
+$user = $config->checkAuth();
 ?>
 
 
-<h2>Seu perfil</h2>
 
 
-<?php require($_SERVER['DOCUMENT_ROOT'] . '/views/_footer.php');
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/views/_header.php'); ?>
+
+<h2>Bem vindo <?php echo ($user->getUsername()) ?></h2>
+
+
+
+
+<?php require($_SERVER['DOCUMENT_ROOT'] . '/views/_footer.php'); ?>
