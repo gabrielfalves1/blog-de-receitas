@@ -1,5 +1,5 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'] . "./controllers/UserController.php");
+//require($_SERVER['DOCUMENT_ROOT'] . "./controllers/UserController.php");
 class Config
 {
     private $userController;
@@ -16,7 +16,13 @@ class Config
         if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
             header("Location: /login");
             exit;
-        } else {
+        }
+    }
+
+    public function getUser()
+    {
+        if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
+
             $id = ($_SESSION['user_id']);
             $res = $this->userController->get($id);
             if ($res) {
@@ -24,10 +30,12 @@ class Config
                 $this->user->setUsername($res['username']);
                 $this->user->setEmail($res['email']);
                 return $this->user;
+            } else {
+                unset($_SESSION['user_id']);
+                unset($_SESSION['logged_in']);
+                header("location: /");
             }
-            unset($_SESSION['user_id']);
-            unset($_SESSION['logged_in']);
-            header("location: /");
+            return null;
         }
     }
 

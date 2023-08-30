@@ -2,8 +2,7 @@
 
 class Auth
 {
-    private $email;
-    private $password;
+    private $email, $password;
 
 
     function __construct($email, $password)

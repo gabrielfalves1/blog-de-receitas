@@ -1,7 +1,5 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'] . "./configuration/connect.php");
-
-require("User.php");
+include 'configuration\Connect.php';
 
 class UserDao extends Connect
 {

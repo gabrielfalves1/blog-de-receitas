@@ -1,5 +1,5 @@
 <?php
-require($_SERVER['DOCUMENT_ROOT'] . "./configuration/connect.php");
+require($_SERVER['DOCUMENT_ROOT'] . "./configuration/Connect.php");
 
 require("Auth.php");
 

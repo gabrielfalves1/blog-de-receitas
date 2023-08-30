@@ -1,82 +1,55 @@
 <?php
-session_start();
-require($_SERVER['DOCUMENT_ROOT'] . "./models/UserDao.php");
 
 class UserController
 {
-    private $dao;
 
-    function __construct()
+    public static function index()
     {
-        $this->dao = new UserDao();
+        require_once "./views/home.php";
+    }
+
+    public static function create()
+    {
+        require_once "./views/registerForm.php";
     }
 
     public function get($id)
     {
-        return $this->dao->get($id);
     }
 
     public function getAll()
     {
     }
 
-
-    public function create($data)
+    public static function store()
     {
-        $user = new User($data['username'], $data['email'], $data['password']);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once 'models/User.php';
+            require_once 'validators/UserValidator.php';
+            require_once 'dao/UserDao.php';
 
-        $validationResult =  $this->validate($user);
+            $user = new User();
+            $user->setUsername($_POST['username']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
 
-        if (!$validationResult) {
-            header("location: /register");
+            $userValidator = new UserValidator();
+            $validatedUser = $userValidator->validate($user);
+
+            if ($validatedUser !== null) {
+                $userDao = new UserDao();
+                $userDao->create($validatedUser);
+
+                $msg['ok'] = "Usuário cadastrado com sucesso.<br>Faça login para continuar.";
+                require_once "./views/registerForm.php";
+
+                header("Refresh: 3; url=/user/form");
+            } else {
+                $msg = $userValidator->getMsgs();
+                require_once "./views/registerForm.php";
+            }
         } else {
-            $this->dao->create($validationResult);
-            header("location: /login");
+            header('location: /user/register');
         }
-    }
-
-
-    public function validate(User $user)
-    {
-        $username = trim($user->getUserName());
-        $email = trim($user->getEmail());
-        $password = $user->getPassword();
-        $errors = [];
-
-        if (empty($username) || empty($email) || empty($password)) {
-            $errors[] = "Preencha todos os campos.";
-        }
-
-        if (strlen($username) > 15) {
-            $errors[] = "Nome de usuário só pode conter até 15 caracteres.";
-        }
-
-        if (strlen($username) < 3) {
-            $errors[] = "Nome de usuário precisa ter no mínimo 3 caracteres.";
-        }
-
-        $emailExists =  $this->dao->isEmailRegistered($email);
-
-        if ($emailExists) {
-            $errors[] = "Email já cadastrado em nosso sistema.";
-        }
-
-        $usernameExists = $this->dao->isUsernameRegistered($username);
-
-        if ($usernameExists) {
-            $errors[] = "Nome de usuário já cadastrado em nosso sistema.";
-        }
-
-        if (!empty($errors)) {
-            $_SESSION["errors"] = $errors;
-            return false;
-        }
-
-        $user->setUsername($username);
-        $user->setEmail($email);
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $user->setPassword($hashedPassword);
-
-        return $user;
     }
 }

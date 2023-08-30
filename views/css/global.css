@@ -1,14 +1,15 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
 
 :root {
-  --primary-color: #5c0a0a;
+  --primary-color: #a03b2c;
+  --secondary-color: #fff;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Poppins", sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
 body {
@@ -17,10 +18,12 @@ body {
 }
 
 main {
+  background-color: var(--secondary-color);
   max-width: 1024px;
   margin: auto;
-  margin-top: 100px;
+  margin-top: 80px;
   min-height: 100vh;
+  padding: 15px;
 }
 
 .navbar-custom {
@@ -34,6 +37,13 @@ main {
   color: white !important;
 }
 
+footer {
+  background-color: black;
+  color: #fff;
+  max-width: 1024px;
+  margin: auto;
+  padding: 15px;
+}
 .btn-custom {
   border: none;
   background-color: var(--primary-color);
@@ -52,8 +62,7 @@ main {
   border: 1px solid #dee2e6;
 }
 
-.errors {
-  color: red;
+.msg {
   max-width: 230px;
   word-wrap: break-word;
 }

@@ -1,6 +1,4 @@
 <?php
-session_start();
-require($_SERVER['DOCUMENT_ROOT'] . "./models/AuthDao.php");
 
 class AuthController
 {
@@ -24,6 +22,11 @@ class AuthController
             $_SESSION['logged_in'] = true;
             header("location: /");
         }
+    }
+
+    public static function showLoginForm()
+    {
+        include 'views\loginForm.php';
     }
 
     public function logout()

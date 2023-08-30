@@ -4,9 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../views/css/global.css">
-    <?php if (isset($cssPath)) echo "<link rel='stylesheet' href='$cssPath'>"; ?>
-    <title><?php echo $pageTitle ?></title>
+    <link rel="stylesheet" href="../../views/css/global.css">
+    <?php if (isset($cssPath)) echo '<link rel="stylesheet" href="' . $cssPath . '">' ?>
+    <title></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 
@@ -24,28 +24,34 @@
                         <a class="nav-link" href="/">Início</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/posts">Ultimas receitas</a>
+                        <a class="nav-link" href="/recipe/index">Receitas</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
 
                     <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) : ?>
-                        <form action="/" method="post">
-                            <input type="hidden" name="action" value="logout">
-                            <li class="nav-item">
-                                <button type="submit" class="nav-link" style="color: #fff">Sair</button>
-                            </li>
-                        </form>
-
+                        <div class="dropdown">
+                            <a style="color: #fff" class="nav-link dropdown-toggle" href="#" id="dropdownMenu2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?php echo $user->getUsername() ?>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                <a class="dropdown-item" href="/profile">Meu perfil</a>
+                                <a class="dropdown-item" href="/publish">Publicar</a>
+                                <form action="/" method="post">
+                                    <input type="hidden" name="action" value="logout">
+                                    <li class="nav-item">
+                                        <button type="submit" class="dropdown-item">Sair</button>
+                                    </li>
+                                </form>
+                            </div>
+                        </div>
                     <?php else : ?>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/login">Acessar</a>
+                            <a class="nav-link" href="/user/form">Acessar</a>
                         </li>
                     <?php endif ?>
                 </ul>
-
-
             </div>
         </div>
     </nav>
