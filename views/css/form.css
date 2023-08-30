@@ -1,0 +1,8 @@
+.options a {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.form {
+  margin-top: 50px;
+}

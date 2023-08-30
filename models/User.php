@@ -2,27 +2,22 @@
 
 class User
 {
-    private $id;
-    private $userName;
-    private $email;
-    private $password;
-
+    private $id, $username, $email, $password;
 
     public function getId()
     {
         return $this->id;
     }
 
-    public function getUserName()
+    public function getUsername()
     {
-        return $this->userName;
+        return $this->username;
     }
 
     public function getEmail()
     {
         return $this->email;
     }
-
 
     public function getPassword()
     {
@@ -34,9 +29,9 @@ class User
         $this->id = $id;
     }
 
-    public function setUserName($userName)
+    public function setUsername($username)
     {
-        $this->userName = $userName;
+        $this->username = $username;
     }
 
     public function setEmail($email)

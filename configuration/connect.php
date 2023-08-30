@@ -1,5 +1,4 @@
 <?php
-
 $envPath = $_SERVER['DOCUMENT_ROOT'] . "/.env";
 $envConfig = parse_ini_file($envPath);
 
@@ -9,7 +8,7 @@ if ($envConfig) {
     define('USER', $envConfig['DB_USER']);
     define('PASS', $envConfig['DB_PASS']);
 } else {
-    echo "Configure as variáveis de ambiente";
+    echo "Configure as variáveis de ambiente.";
 }
 
 class Connect

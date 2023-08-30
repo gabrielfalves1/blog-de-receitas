@@ -1,33 +1,55 @@
 <?php
 
-require($_SERVER['DOCUMENT_ROOT'] . "./models/UserDao.php");
-
-$user = new User();
-
-
 class UserController
 {
-    private $dao;
 
-    function __construct()
+    public static function index()
     {
-        $this->dao = new UserDao();
+        require_once "./views/home.php";
     }
 
-    public function get()
+    public static function create()
     {
-        $resultData = $this->dao->get();
-        require($_SERVER['DOCUMENT_ROOT'] . "./views/index.php");
+        require_once "./views/registerForm.php";
     }
 
-    public function create($data)
+    public function get($id)
     {
-        $result = $this->dao->create($data);
     }
 
-
-    public function viewHomePage()
+    public function getAll()
     {
-        require($_SERVER['DOCUMENT_ROOT'] . "./views/home.php");
+    }
+
+    public static function store()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once 'models/User.php';
+            require_once 'validators/UserValidator.php';
+            require_once 'dao/UserDao.php';
+
+            $user = new User();
+            $user->setUsername($_POST['username']);
+            $user->setEmail($_POST['email']);
+            $user->setPassword($_POST['password']);
+
+            $userValidator = new UserValidator();
+            $validatedUser = $userValidator->validate($user);
+
+            if ($validatedUser !== null) {
+                $userDao = new UserDao();
+                $userDao->create($validatedUser);
+
+                $msg['ok'] = "Usuário cadastrado com sucesso.<br>Faça login para continuar.";
+                require_once "./views/registerForm.php";
+
+                header("Refresh: 3; url=/user/form");
+            } else {
+                $msg = $userValidator->getMsgs();
+                require_once "./views/registerForm.php";
+            }
+        } else {
+            header('location: /user/register');
+        }
     }
 }
