@@ -1,6 +1,6 @@
 <?php
 
-class Auth
+class Login
 {
     private $email, $password;
 

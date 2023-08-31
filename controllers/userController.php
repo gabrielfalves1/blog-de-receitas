@@ -8,7 +8,7 @@ class UserController
         require_once "./views/home.php";
     }
 
-    public static function create()
+    public static function showRegisterForm()
     {
         require_once "./views/registerForm.php";
     }
@@ -40,10 +40,10 @@ class UserController
                 $userDao = new UserDao();
                 $userDao->create($validatedUser);
 
-                $msg['ok'] = "Usuário cadastrado com sucesso.<br>Faça login para continuar.";
-                require_once "./views/registerForm.php";
+                $_POST = "";
 
-                header("Refresh: 3; url=/user/form");
+                $msg['ok'] = "Usuário cadastrado com sucesso.<br>Faça login para continuar.";
+                require_once "views\loginForm.php";
             } else {
                 $msg = $userValidator->getMsgs();
                 require_once "./views/registerForm.php";

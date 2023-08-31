@@ -39,7 +39,7 @@ class UserDao extends Connect
 
             return $stmt->execute();
         } catch (Exception $e) {
-            echo ("Erro ao realizar inserção de usuário.") . $e->getMessage();
+            throw new Exception("Erro ao realizar inserção de usuário.");
         }
     }
 
@@ -57,7 +57,7 @@ class UserDao extends Connect
             $rowCount = $stmt->rowCount();
             return $rowCount > 0;
         } catch (Exception $e) {
-            echo ("Erro ao verificar email.") . $e->getMessage();
+            throw new Exception("Erro ao verificar email.");
         }
     }
 
@@ -75,7 +75,7 @@ class UserDao extends Connect
             $rowCount = $stmt->rowCount();
             return $rowCount > 0;
         } catch (Exception $e) {
-            echo ("Erro ao verificar nome de usuário.") . $e->getMessage();
+            throw new Exception("Erro ao verificar nome de usuário.");
         }
     }
 }

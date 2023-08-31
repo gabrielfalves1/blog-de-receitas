@@ -1,54 +1,63 @@
 <?php
+session_start();
+include_once 'configuration\Config.php';
 require_once 'controllers\UserController.php';
-require_once 'controllers\AuthController.php';
+require_once 'controllers\LoginController.php';
 require_once 'controllers\RecipeController.php';
 
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$segments = explode('/', $url);
+if (isset($_GET['id'])) :
+    $id = $_GET['id'];
+endif;
 
 switch ($url) {
     case '/':
         UserController::index();
         break;
 
-    case '/user/form':
-        AuthController::showLoginForm();
+    case '/login/form':
+        Config::isLoggedIn();
+        LoginController::showLoginForm();
         break;
 
-    case '/user/store':
-        UserController::store();
+    case '/login/auth':
+        Config::isLoggedIn();
+        LoginController::authenticate();
         break;
 
     case '/user/register':
-        UserController::create();
+        Config::isLoggedIn();
+        UserController::showRegisterForm();
+        break;
+
+    case '/user/store':
+        Config::isLoggedIn();
+        UserController::store();
         break;
 
     case '/recipe/index':
         RecipeController::index();
         break;
 
-    case '/recipe/publish':
+    case '/recipe/form':
+        Config::checkAuth();
         RecipeController::showPublishForm();
         break;
 
     case '/recipe/store':
+        Config::checkAuth();
         RecipeController::store();
         break;
 
-    case '/erro':
-        echo "Erro 404";
+    case '/user/profile':
+        Config::checkAuth();
         break;
+
+    case '/login/logout':
+        LoginController::logout();
+        break;
+
 
     default:
-        if (count($segments) > 4) {
-            header('location: /erro');
-        }
-
-        if ($segments[1] === 'perfil') {
-            $data = intval(end($segments));
-            echo $data;
-        } else {
-            header('location: /erro');
-        }
-        break;
+        echo "Erro 404";
 }

@@ -29,26 +29,21 @@
                 </ul>
                 <ul class="navbar-nav ms-auto">
 
-                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) : ?>
+                    <?php if (isset($_SESSION['logged_in'])) : ?>
                         <div class="dropdown">
                             <a style="color: #fff" class="nav-link dropdown-toggle" href="#" id="dropdownMenu2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <?php echo $user->getUsername() ?>
+                                <?php echo $_SESSION['logged_in']['username'] ?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                 <a class="dropdown-item" href="/profile">Meu perfil</a>
-                                <a class="dropdown-item" href="/publish">Publicar</a>
-                                <form action="/" method="post">
-                                    <input type="hidden" name="action" value="logout">
-                                    <li class="nav-item">
-                                        <button type="submit" class="dropdown-item">Sair</button>
-                                    </li>
-                                </form>
+                                <a class="dropdown-item" href="/recipe/form">Publicar</a>
+                                <a class="dropdown-item" href="/login/logout">Sair</a>
                             </div>
                         </div>
                     <?php else : ?>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/form">Acessar</a>
+                            <a class="nav-link" href="/login/form">Acessar</a>
                         </li>
                     <?php endif ?>
                 </ul>
