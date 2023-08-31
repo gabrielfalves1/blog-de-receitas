@@ -4,8 +4,6 @@ class Recipe
 {
     private $id, $user_id, $title, $content;
 
-
-
     public function getId()
     {
         return $this->id;

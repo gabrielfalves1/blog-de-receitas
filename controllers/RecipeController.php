@@ -5,22 +5,55 @@ class RecipeController
 
     public static function index()
     {
-        include 'models\RecipeDao.php';
-        $dao = new RecipeDao();
+        require_once 'dao\RecipeDao.php';
+        $recipeDao = new RecipeDao();
+        $recipes = $recipeDao->findAll();
 
-        $recipes = $dao->getAll();
-
-        include 'views\recipes.php';
+        require_once 'views\recipes.php';
     }
-
 
     public static function ShowPublishForm()
     {
-        include './views/publishForm.php';
+        require_once './views/publishForm.php';
     }
 
     public static function store()
     {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            require_once 'validators\RecipeValidator.php';
+            require_once 'dao\RecipeDao.php';
+
+            if (!isset($_SESSION['logged_in']['id'])) header('location: /login/form');
+            $id = $_SESSION['logged_in']['id'];
+
+            $recipe = new Recipe();
+            $recipe->setTitle($_POST['title']);
+            $recipe->setContent($_POST['content']);
+            $recipe->setUserId($id);
+
+            $recipeValidator = new RecipeValidator();
+
+            $validatedRecipe = $recipeValidator->validate($recipe);
+
+            if ($validatedRecipe !== null) {
+                $recipeDao = new RecipeDao();
+                $recipeDao->create($validatedRecipe);
+
+                $_POST = "";
+
+                $msg['ok'] = 'Receita publicada com sucesso!';
+
+                require_once 'views\publishForm.php';
+
+                header("refresh:3;url=/recipe/index");
+            } else {
+                $msg = $recipeValidator->getMsgs();
+
+                require_once 'views\publishForm.php';
+            }
+        } else {
+            header('/recipe/form');
+        }
     }
 
 
@@ -39,41 +72,4 @@ class RecipeController
     }
 
 */
-    public function validate(Recipe $recipe)
-    {
-        $user_id = $recipe->getUserId();
-        $title = trim(htmlspecialchars($recipe->getTitle()));
-        $content =  trim(htmlspecialchars($recipe->getContent()));
-        $fd = [];
-        $errors = [];
-
-        if (empty($user_id) || empty($title) || empty($content)) {
-            $errors[] = "Preencha todos os campos.";
-        }
-
-        if (strlen($title) > 80) {
-            $errors[] = "O título só pode ter até 80 caracteres.";
-        }
-
-        if (strlen($title) < 5) {
-            $errors[] = "O título precisa ter no mínimo 5 caracteres.";
-        }
-
-        if (strlen($content) > 5000) {
-            $errors[] = "O contéudo só pode ter até 5000 caracteres.";
-        }
-
-        if (strlen($content) < 10) {
-            $errors[] = "O contéudo precisa ter no mínimo 10 caracteres.";
-        }
-
-        if (!empty($errors)) {
-            $fd = ['error' => $errors];
-        }
-
-        $recipe->setTitle($title);
-        $recipe->setContent($content);
-
-        return true;
-    }
 }

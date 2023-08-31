@@ -15,7 +15,7 @@ class RecipeDao extends Connect
     }
 
 
-    public function getAll()
+    public function findAll()
     {
         try {
 
@@ -27,7 +27,7 @@ class RecipeDao extends Connect
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
-            echo ("Erro ao buscar receitas.") . $e->getMessage();
+            throw new Exception("Erro ao buscar receitas.");
         }
     }
 
@@ -45,7 +45,7 @@ class RecipeDao extends Connect
 
             $stmt->execute();
         } catch (Exception $e) {
-            echo ("Erro ao realizar inserção de receita.") . $e->getMessage();
+            throw new Exception("Erro ao realizar inserção de receita.");
         }
     }
 }
