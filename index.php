@@ -6,9 +6,7 @@ require_once 'controllers\LoginController.php';
 require_once 'controllers\RecipeController.php';
 
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-if (isset($_GET['id'])) :
-    $id = $_GET['id'];
-endif;
+$segments = explode('/', $url);
 
 switch ($url) {
     case '/':
@@ -59,5 +57,10 @@ switch ($url) {
 
 
     default:
-        echo "Erro 404";
+        if (count($segments) === 3 && $segments[1] === 'recipe') {
+            $id = intval($segments[2]);
+            RecipeController::ShowRecipeProfile($id);
+        } else {
+            echo "Erro 404";
+        }
 }

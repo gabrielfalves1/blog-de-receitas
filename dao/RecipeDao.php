@@ -20,7 +20,6 @@ class RecipeDao extends Connect
         try {
 
             $sql = "SELECT * FROM $this->table";
-
             $stmt = $this->connection->prepare($sql);
 
             $stmt->execute();
@@ -36,7 +35,6 @@ class RecipeDao extends Connect
         try {
 
             $sql = "INSERT INTO $this->table (title, content, user_id) VALUES (:title, :content, :user_id)";
-
             $stmt = $this->connection->prepare($sql);
 
             $stmt->bindValue("title", $recipe->getTitle());
@@ -46,6 +44,22 @@ class RecipeDao extends Connect
             $stmt->execute();
         } catch (Exception $e) {
             throw new Exception("Erro ao realizar inserção de receita.");
+        }
+    }
+
+    public function get($id)
+    {
+        try {
+            $sql = "SELECT * FROM $this->table WHERE id = :id";
+            $stmt = $this->connection->prepare($sql);
+
+            $stmt->bindValue("id", $id);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+        } catch (Exception $e) {
+            throw new Exception("Erro ao buscar receita.");
         }
     }
 }

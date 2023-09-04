@@ -17,6 +17,15 @@ class RecipeController
         require_once './views/publishForm.php';
     }
 
+    public static function ShowRecipeProfile($id)
+    {
+        require_once 'dao\RecipeDao.php';
+        $recipeDao = new RecipeDao();
+        $recipe = $recipeDao->get($id);
+
+        require_once 'views\recipeProfile.php';
+    }
+
     public static function store()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
